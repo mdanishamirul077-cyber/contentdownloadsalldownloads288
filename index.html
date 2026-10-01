@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KELASS 7.10</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#64748b;--pri:#2563eb;--soft:#e8efff;--border:#dbe3ee}
+.dark{--bg:#0f172a;--card:#172033;--text:#f8fafc;--muted:#aab5c5;--soft:#24324a;--border:#334155}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif;transition:.2s}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:25px 16px;text-align:center}header h1{margin:0;font-size:30px}header p{margin:7px 0}
+nav{position:sticky;top:0;z-index:20;background:var(--card);padding:9px;display:flex;gap:7px;overflow:auto;box-shadow:0 2px 10px #0002}
+button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer}.navbtn{background:var(--soft);color:var(--text);white-space:nowrap}.navbtn.active,.primary{background:var(--pri)!important;color:#fff!important}
+main{max-width:1100px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:17px;padding:18px;margin:13px 0;box-shadow:0 5px 18px #0000000b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:13px}.small{color:var(--muted)}
+input,select{width:100%;padding:12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:10px;margin:5px 0;font-size:16px}
+.search{margin-bottom:12px}.tag{display:inline-block;padding:5px 9px;border-radius:20px;background:var(--soft);margin:3px;font-size:12px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}.keys button{font-size:18px;background:var(--soft);color:var(--text)}
+.result{background:var(--soft);padding:12px;border-radius:10px;margin-top:10px;font-weight:700;min-height:25px}
+.answer{display:block;width:100%;text-align:left;margin:7px 0;background:var(--soft);color:var(--text);border:1px solid var(--border)}
+.correct{background:#dcfce7!important;color:#14532d!important}.wrong{background:#fee2e2!important;color:#991b1b!important}
+.track{height:11px;background:var(--soft);border-radius:20px;overflow:hidden}.bar{height:100%;width:0;background:var(--pri);transition:.25s}
+.stat{font-size:24px;font-weight:800}.hidden{display:none}footer{text-align:center;padding:30px;color:var(--muted)}
+details{background:var(--card);border:1px solid var(--border);padding:12px;border-radius:10px;margin:7px 0}summary{font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+<h1>🧮 KELASS 7.10</h1>
+<p>Belajar • Menghitung • Berlatih • Kuis</p>
+</header>
+<nav id="nav">
+<button class="navbtn active" onclick="go('home',this)">🏠 Beranda</button>
+<button class="navbtn" onclick="go('materi',this)">📚 Materi</button><button class="navbtn" onclick="go('fpbkpk',this)">🔢 FPB/KPK</button>
+<button class="navbtn" onclick="go('calc',this)">🧮 Kalkulator</button>
+<button class="navbtn" onclick="go('bangun',this)">📐 Bangun</button>
+<button class="navbtn" onclick="go('aljabar',this)">🔢 Aljabar</button>
+<button class="navbtn" onclick="go('pecahan',this)">🍕 Pecahan</button>
+<button class="navbtn" onclick="go('stat',this)">📊 Statistika</button>
+<button class="navbtn" onclick="go('peluang',this)">🎲 Peluang</button>
+<button class="navbtn" onclick="go('latihan',this)">✏️ Latihan</button>
+<button class="navbtn" onclick="go('kuis',this)">🎯 Kuis</button>
+<button class="navbtn" onclick="go('progres',this)">🏆 Progres</button><button class="navbtn" onclick="go('ai',this)">🤖 7.10</button><button class="navbtn" onclick="go('dola',this)">🤖 Dola</button><button class="navbtn" type="button" onclick="openChatGlobal(this)">💬 Chat Global</button><button class="navbtn" onclick="go('developer',this)">🛠️ Developer</button>
+<button class="navbtn" onclick="toggleDark()">🌙</button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+<div class="card"><h2>Halo! 👋</h2><p>Selamat datang di <b>KELASS 7.10</b>. Semua menu di sini interaktif.</p><span class="tag">Materi</span><span class="tag">Kalkulator</span><span class="tag">Latihan</span><span class="tag">Kuis</span></div>
+<div class="grid">
+<div class="card"><h3>📚 Materi Lengkap</h3><p>Pelajari berbagai topik matematika.</p><button class="primary" onclick="go('materi',nav.children[1])">Buka materi</button></div>
+<div class="card"><h3>🧮 Kalkulator</h3><p>Hitung operasi matematika dengan tombol.</p><button class="primary" onclick="go('calc',nav.children[2])">Buka</button></div>
+<div class="card"><h3>🎯 Kuis</h3><p>Jawab soal dan kumpulkan skor.</p><button class="primary" onclick="go('kuis',nav.children[9])">Mulai</button></div>
+<div class="card"><h3>🏆 Progres</h3><p>Lihat latihan dan skor terbaik.</p><button class="primary" onclick="go('progres',nav.children[10])">Lihat</button></div>
+</div>
+</section>
+
+<section id="materi" class="page">
+<h2>📚 Semua Materi MTK</h2>
+<p class="small">Klik materi untuk membuka penjelasan dan contoh.</p>
+<input class="search" id="search" oninput="filterMateri()" placeholder="🔍 Cari materi...">
+<div id="materiList" class="grid">
+<article class="card topic"><h3>🔢 Bilangan, FPB & KPK</h3><p>Bilangan bulat, faktor, kelipatan, FPB dan KPK.</p><button class="primary" onclick="showMaterial('Bilangan, FPB & KPK','FPB adalah faktor persekutuan terbesar. KPK adalah kelipatan persekutuan terkecil.\\n\\nContoh: FPB(12,18)=6 dan KPK(12,18)=36.')">Buka</button></article>
+<article class="card topic"><h3>🍕 Pecahan</h3><p>Pecahan biasa, campuran, desimal dan persen.</p><button class="primary" onclick="showMaterial('Pecahan','Tambah/kurang: samakan penyebut.\\nKali: pembilang × pembilang dan penyebut × penyebut.\\nBagi: kalikan dengan kebalikan pecahan kedua.\\n\\nContoh: 1/2 + 1/4 = 3/4.')">Buka</button></article>
+<article class="card topic"><h3>💯 Persentase</h3><p>Persen, diskon, kenaikan dan penurunan.</p><button class="primary" onclick="showMaterial('Persentase','Rumus: bagian ÷ keseluruhan × 100%.\\nContoh: 25% dari 200 = 50.')">Buka</button></article>
+<article class="card topic"><h3>⚖️ Perbandingan</h3><p>Rasio dan perbandingan senilai.</p><button class="primary" onclick="showMaterial('Perbandingan','Perbandingan 2:3 berarti 2 bagian berbanding 3 bagian. Gunakan perkalian silang untuk mencari nilai yang belum diketahui.')">Buka</button></article>
+<article class="card topic"><h3>🔤 Aljabar</h3><p>Variabel, suku dan persamaan.</p><button class="primary" onclick="showMaterial('Aljabar','Variabel adalah simbol untuk nilai yang belum diketahui.\\nContoh: 2x+4=10 → 2x=6 → x=3.')">Buka</button></article>
+<article class="card topic"><h3>² Pangkat & Akar</h3><p>Pangkat dan akar kuadrat.</p><button class="primary" onclick="showMaterial('Pangkat & Akar','3² = 9 karena 3×3=9.\\n√81 = 9 karena 9×9=81.')">Buka</button></article>
+<article class="card topic"><h3>📐 Geometri</h3><p>Luas, keliling dan bangun ruang.</p><button class="primary" onclick="showMaterial('Geometri','Persegi: L=s², K=4s.\\nPersegi panjang: L=p×l, K=2(p+l).\\nSegitiga: L=½×alas×tinggi.\\nLingkaran: L=πr².')">Buka</button></article>
+<article class="card topic"><h3>📍 Koordinat</h3><p>Titik dan bidang koordinat.</p><button class="primary" onclick="showMaterial('Koordinat','Titik ditulis (x,y). x adalah posisi mendatar, y adalah posisi tegak. Contoh (3,2).')">Buka</button></article>
+<article class="card topic"><h3>📊 Statistika</h3><p>Mean, median, modus dan rentang.</p><button class="primary" onclick="showMaterial('Statistika','Mean = jumlah data ÷ banyak data.\\nMedian = nilai tengah setelah diurutkan.\\nModus = nilai yang paling sering muncul.\\nRentang = terbesar − terkecil.')">Buka</button></article>
+<article class="card topic"><h3>🎲 Peluang</h3><p>Peluang kejadian sederhana.</p><button class="primary" onclick="showMaterial('Peluang','Peluang = kejadian yang diinginkan ÷ seluruh kemungkinan.\\nContoh dadu: peluang mendapat 6 = 1/6.')">Buka</button></article>
+<article class="card topic"><h3>📏 Satuan</h3><p>Panjang, luas, volume dan waktu.</p><button class="primary" onclick="showMaterial('Satuan','1 km=1000 m.\\n1 m=100 cm.\\n1 jam=60 menit.\\n1 m³=1000 liter.')">Buka</button></article>
+<article class="card topic"><h3>📈 Persamaan</h3><p>Persamaan linear satu variabel.</p><button class="primary" onclick="showMaterial('Persamaan','Bentuk ax+b=c. Pindahkan b lalu bagi dengan a.\\nContoh: 3x+6=15 → 3x=9 → x=3.')">Buka</button></article>
+</div>
+
+<article class="card topic"><h3>🔵 Bilangan Prima</h3><p>Bilangan yang hanya punya dua faktor positif.</p><button class="primary" onclick="showMaterial('Bilangan Prima','Bilangan prima hanya memiliki faktor 1 dan dirinya sendiri. Contoh: 2, 3, 5, 7, 11.')">Buka</button></article>
+<article class="card topic"><h3>🔁 Pola Bilangan</h3><p>Mengenali pola dan menentukan suku berikutnya.</p><button class="primary" onclick="showMaterial('Pola Bilangan','Cari perubahan dari satu suku ke suku berikutnya. Contoh: 2, 4, 6, 8 adalah pola tambah 2.')">Buka</button></article>
+<article class="card topic"><h3>📦 Himpunan</h3><p>Anggota, irisan, gabungan dan komplemen.</p><button class="primary" onclick="showMaterial('Himpunan','Irisan berisi anggota yang sama. Gabungan berisi semua anggota dari kedua himpunan tanpa pengulangan.')">Buka</button></article>
+<article class="card topic"><h3>📏 Garis & Sudut</h3><p>Jenis sudut dan hubungan antar sudut.</p><button class="primary" onclick="showMaterial('Garis & Sudut','Sudut lancip kurang dari 90°, siku-siku = 90°, tumpul antara 90° dan 180°, lurus = 180°.')">Buka</button></article>
+<article class="card topic"><h3>🔺 Segitiga</h3><p>Jenis dan sifat segitiga.</p><button class="primary" onclick="showMaterial('Segitiga','Jumlah sudut dalam segitiga selalu 180°. Luas = ½ × alas × tinggi.')">Buka</button></article>
+<article class="card topic"><h3>⬛ Segiempat</h3><p>Persegi, persegi panjang, jajargenjang, trapesium dan layang-layang.</p><button class="primary" onclick="showMaterial('Segiempat','Setiap bangun memiliki rumus luas dan keliling berbeda. Gunakan ukuran sisi, alas, tinggi atau diagonal sesuai bangunnya.')">Buka</button></article>
+<article class="card topic"><h3>⭕ Lingkaran</h3><p>Jari-jari, diameter, luas dan keliling.</p><button class="primary" onclick="showMaterial('Lingkaran','Diameter = 2r. Luas = πr². Keliling = 2πr.')">Buka</button></article>
+<article class="card topic"><h3>📐 Pythagoras</h3><p>Hubungan sisi-sisi segitiga siku-siku.</p><button class="primary" onclick="showMaterial('Pythagoras','Pada segitiga siku-siku: a² + b² = c², dengan c sebagai sisi miring.')">Buka</button></article>
+<article class="card topic"><h3>🗺️ Skala</h3><p>Skala pada peta dan gambar.</p><button class="primary" onclick="showMaterial('Skala','Skala = jarak pada gambar ÷ jarak sebenarnya. Pastikan satuannya sama sebelum menghitung.')">Buka</button></article>
+<article class="card topic"><h3>🚗 Jarak, Waktu & Kecepatan</h3><p>Hubungan perjalanan dan kecepatan.</p><button class="primary" onclick="showMaterial('Jarak, Waktu & Kecepatan','Kecepatan = jarak ÷ waktu. Jarak = kecepatan × waktu. Waktu = jarak ÷ kecepatan.')">Buka</button></article>
+<article class="card topic"><h3>💰 Aritmetika Sosial</h3><p>Untung, rugi, diskon dan harga.</p><button class="primary" onclick="showMaterial('Aritmetika Sosial','Untung = harga jual − harga beli. Rugi = harga beli − harga jual. Diskon adalah potongan dari harga awal.')">Buka</button></article>
+<article class="card topic"><h3>🔄 Transformasi</h3><p>Translasi, refleksi, rotasi dan dilatasi.</p><button class="primary" onclick="showMaterial('Transformasi','Transformasi memindahkan atau mengubah posisi/ukuran objek pada bidang koordinat.')">Buka</button></article>
+<div id="materialBox" class="card hidden"><h3 id="materialTitle"></h3><p id="materialText" style="white-space:pre-line"></p><button onclick="closeMaterial()">Tutup</button></div>
+</section>
+
+<section id="calc" class="page"><h2>🧮 Kalkulator</h2><div class="card"><input id="display" readonly placeholder="0"><div class="keys">
+<button onclick="add('7')">7</button><button onclick="add('8')">8</button><button onclick="add('9')">9</button><button onclick="add('/')">÷</button>
+<button onclick="add('4')">4</button><button onclick="add('5')">5</button><button onclick="add('6')">6</button><button onclick="add('*')">×</button>
+<button onclick="add('1')">1</button><button onclick="add('2')">2</button><button onclick="add('3')">3</button><button onclick="add('-')">−</button>
+<button onclick="add('0')">0</button><button onclick="add('.')">.</button><button onclick="calculate()">=</button><button onclick="add('+')">+</button>
+<button style="grid-column:span 2" onclick="backspace()">⌫</button><button style="grid-column:span 2" onclick="clearCalc()">Hapus</button>
+</div></div></section>
+
+<section id="bangun" class="page"><h2>📐 Bangun Datar & Ruang</h2><div class="card">
+<select id="shape" onchange="shapeInputs()"><option value="square">Persegi — luas & keliling</option><option value="rect">Persegi panjang — luas & keliling</option><option value="tri">Segitiga — luas</option><option value="circle">Lingkaran — luas & keliling</option><option value="cube">Kubus — volume</option><option value="block">Balok — volume</option></select>
+<input id="ba" type="number" placeholder="Sisi / panjang / alas / jari-jari"><input id="bb" type="number" placeholder="Lebar / tinggi"><input id="bc" type="number" placeholder="Tinggi">
+<button class="primary" onclick="shapeCalc()">Hitung</button><div id="br" class="result">Hasil di sini.</div></div></section>
+
+<section id="aljabar" class="page"><h2>🔢 Persamaan ax + b = c</h2><div class="card"><p>Masukkan nilai a, b, c.</p><input id="xa" type="number" placeholder="a"><input id="xb" type="number" placeholder="b"><input id="xc" type="number" placeholder="c"><button class="primary" onclick="solveX()">Cari x</button><div id="xr" class="result">Hasil di sini.</div></div></section>
+
+<section id="pecahan" class="page"><h2>🍕 Kalkulator Pecahan</h2><div class="card"><input id="n1" type="number" placeholder="Pembilang 1"><input id="d1" type="number" placeholder="Penyebut 1"><input id="n2" type="number" placeholder="Pembilang 2"><input id="d2" type="number" placeholder="Penyebut 2"><select id="fop"><option>+</option><option>-</option><option>*</option><option>/</option></select><button class="primary" onclick="fractionCalc()">Hitung</button><div id="fr" class="result">Hasil di sini.</div></div></section>
+
+<section id="stat" class="page"><h2>📊 Statistika</h2><div class="card"><p>Masukkan angka dipisahkan koma. Contoh: <b>70,80,90,80,100</b></p><input id="data" placeholder="Data angka"><button class="primary" onclick="stats()">Hitung</button><div id="sr" class="result">Hasil di sini.</div></div></section>
+
+<section id="peluang" class="page"><h2>🎲 Peluang</h2><div class="card"><p>Peluang = kejadian yang diinginkan ÷ seluruh kemungkinan.</p><input id="fav" type="number" placeholder="Kejadian yang diinginkan"><input id="total" type="number" placeholder="Seluruh kemungkinan"><button class="primary" onclick="prob()">Hitung peluang</button><div id="pr" class="result">Hasil di sini.</div></div></section>
+
+<section id="latihan" class="page"><h2>✏️ Latihan Soal</h2>
+<div class="card"><p>1. 24 ÷ 6 + 5 = ?</p><button class="answer" onclick="exercise(this,true,'l1')">9</button><button class="answer" onclick="exercise(this,false,'l1')">7</button><button class="answer" onclick="exercise(this,false,'l1')">14</button><div id="l1"></div></div>
+<div class="card"><p>2. √81 = ?</p><button class="answer" onclick="exercise(this,true,'l2')">9</button><button class="answer" onclick="exercise(this,false,'l2')">8</button><button class="answer" onclick="exercise(this,false,'l2')">7</button><div id="l2"></div></div>
+<div class="card"><p>3. 25% dari 200 = ?</p><button class="answer" onclick="exercise(this,true,'l3')">50</button><button class="answer" onclick="exercise(this,false,'l3')">25</button><button class="answer" onclick="exercise(this,false,'l3')">75</button><div id="l3"></div></div>
+</section>
+
+
+
+
+<section id="kuis" class="page">
+<h2>🎯 Kuis MTK</h2>
+<div class="card">
+<div id="quizCounter">Soal 1 dari 35</div>
+<div id="quizQuestion" class="result">Tekan Mulai Kuis.</div>
+<div id="quizOptions"></div>
+<div id="quizFeedback" class="result"></div>
+<div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+<button class="primary" id="quizStartBtn" onclick="start35Quiz()">▶️ Mulai Kuis</button>
+<button id="quizNextBtn" onclick="next35Question()" style="display:none">➡️ Berikutnya</button>
+</div>
+<div id="quizScore" class="small"></div>
+</div>
+</section>
+
+
+<section id="ai" class="page">
+<h2>🤖 7.10 — Teman MTK</h2>
+<div class="card">
+  <div id="chatMessages">
+    <div class="card" style="margin:0;background:var(--soft)">
+      <b>🤖 7.10:</b><br>
+      Hai! Aku 7.10 😊 Jangan takut salah. Cerita, tanya MTK, atau kirim foto soalmu. Kita bahas bareng dengan bahasa yang santai.
+    </div>
+  </div>
+  <div id="photoPreview" style="display:none;margin-top:10px"></div>
+  <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:10px">
+    <input id="aiInput" type="text" placeholder="Tulis pesan ke 7.10..." onkeydown="if(event.key==='Enter')sendAI()">
+    <label class="primary" style="cursor:pointer;display:inline-block">
+      📷 Kirim Foto
+      <input id="aiPhoto" type="file" accept="image/*" capture="environment" style="display:none" onchange="previewAIPhoto(this)">
+    </label>
+    <button class="primary" onclick="sendAI()">Kirim</button>
+  </div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:8px">
+    <button onclick="aiQuick('Halo 7.10 😄')">👋 Ngobrol</button>
+    <button onclick="aiQuick('Jelaskan soal ini dengan langkah yang mudah')">🧩 Jelaskan</button>
+    <button onclick="aiQuick('Buatkan soal MTK untuk saya')">✏️ Buat soal</button>
+    <button onclick="clearAI()">🗑️ Bersihkan</button>
+  </div>
+  <p class="small">Catatan: foto bisa dipilih dan ditampilkan di chat. Analisis foto secara langsung membutuhkan AI online/API yang terhubung ke layanan AI.</p>
+</div>
+</section>
+<section id="dola" class="page">
+<h2>🤖 Dola AI</h2>
+<div class="card">
+<p class="small">Buka Dola langsung dari KELASS 7.10.</p>
+<button class="primary" onclick="window.open('https://chat.dola.com/','_blank','noopener,noreferrer')">🚀 Buka Dola</button>
+<div style="margin-top:14px;border:1px solid var(--border);border-radius:14px;overflow:hidden">
+<iframe src="https://chat.dola.com/" title="Dola AI" style="width:100%;height:650px;border:0" loading="lazy"></iframe>
+</div>
+</div></section>
+<section id="developer" class="page">
+<h2>🛠️ Developer</h2>
+<div class="card">
+<p class="small">Edit HTML, CSS, dan JavaScript lalu lihat hasilnya langsung di halaman.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+<button class="primary" type="button" onclick="devRun()">▶️ Jalankan</button>
+<button type="button" onclick="devReset()">↩️ Reset</button>
+<button type="button" onclick="devDownload()">💾 Simpan HTML</button>
+</div>
+<label><b>HTML</b></label>
+<textarea id="devHtml" spellcheck="false" style="width:100%;min-height:160px;margin:6px 0 12px;padding:10px;border:1px solid var(--border);border-radius:12px;font-family:monospace;font-size:13px"></textarea>
+<label><b>CSS</b></label>
+<textarea id="devCss" spellcheck="false" style="width:100%;min-height:120px;margin:6px 0 12px;padding:10px;border:1px solid var(--border);border-radius:12px;font-family:monospace;font-size:13px"></textarea>
+<label><b>JavaScript</b></label>
+<textarea id="devJs" spellcheck="false" style="width:100%;min-height:120px;margin:6px 0 12px;padding:10px;border:1px solid var(--border);border-radius:12px;font-family:monospace;font-size:13px"></textarea>
+<label><b>Preview</b></label>
+<iframe id="devPreview" title="Developer Preview" sandbox="allow-scripts" style="width:100%;height:360px;border:1px solid var(--border);border-radius:12px;background:#fff;margin-top:6px"></iframe>
+</div></section>
+<section id="progres" class="page"><h2>🏆 Progres</h2><div class="grid"><div class="card"><div class="stat" id="best">0</div><p>Skor kuis terbaik</p></div><div class="card"><div class="stat" id="tries">0</div><p>Jumlah percobaan kuis</p></div></div><div class="card"><button class="primary" onclick="resetProgress()">Reset progres</button></div></section>
+
+<section id="chatglobal" class="page"><h2>💬 Chat Global</h2><div class="card"><p class="small">Chat sederhana di dalam halaman KELASS 7.10.</p><input id="chatName" maxlength="30" placeholder="Nama kamu"><input id="chatMessage" maxlength="200" placeholder="Tulis pesan..." onkeydown="if(event.key==='Enter')sendGlobalChat()"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="primary" type="button" onclick="sendGlobalChat()">📤 Kirim</button><button type="button" onclick="clearGlobalChat()">🗑️ Hapus chat</button></div><div id="globalChatList" style="margin-top:12px"></div></div></section>
+</main>
+<footer>KELASS 7.10 • Versi Full</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+function go(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(id==='progres')loadProgress();scrollTo(0,0)}
+function toggleDark(){document.body.classList.toggle('dark');localStorage.setItem('dark',document.body.classList.contains('dark')?'1':'0')}
+if(localStorage.getItem('dark')==='1')document.body.classList.add('dark')
+function showMaterial(title,text){
+ $('materialTitle').textContent='📖 '+title;
+ $('materialText').textContent=text;
+ $('materialBox').classList.remove('hidden');
+ $('materialBox').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeMaterial(){
+ $('materialBox').classList.add('hidden');
+}
+
+function primeFactorsAI(n){
+ n=Math.floor(Math.abs(n));
+ const out=[];
+ for(let d=2;d*d<=n;d++){
+   while(n%d===0){out.push(d);n/=d}
+ }
+ if(n>1)out.push(n);
+ return out;
+}
+function gcdMath(a,b){
+ a=Math.abs(Math.trunc(a)); b=Math.abs(Math.trunc(b));
+ while(b){const t=a%b;a=b;b=t}
+ return a;
+}
+function lcmMath(a,b){
+ return Math.abs((a/gcdMath(a,b))*b);
+}
+function fpbKpkText(a,b){
+ if(!Number.isInteger(a)||!Number.isInteger(b)||a<1||b<1)
+   return 'Masukkan dua bilangan bulat positif.';
+ const fa=primeFactorsAI(a), fb=primeFactorsAI(b);
+ const fp=gcdMath(a,b), kp=lcmMath(a,b);
+ return 'FPB = '+fp+'\\nKPK = '+kp+
+        '\\n\\nFaktorisasi '+a+' = '+fa.join(' × ')+
+        '\\nFaktorisasi '+b+' = '+fb.join(' × ');
+}
+function calcFPBKPK(){
+ const a=Number($('fpbA').value),b=Number($('fpbB').value);
+ $('fpbResult').textContent=fpbKpkText(a,b);
+}
+function calcDedicatedFPBKPK(){
+ const a=Number($('fpA').value),b=Number($('fpB').value);
+ $('fpResult').textContent=fpbKpkText(a,b);
+}
+function filterMateri(){let q=$('search').value.toLowerCase();document.querySelectorAll('.topic').forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q)?'block':'none')}
+function add(v){$('display').value+=v}function clearCalc(){$('display').value=''}function backspace(){$('display').value=$('display').value.slice(0,-1)}
+function calculate(){let x=$('display').value;if(!/^[0-9+*/(). -]+$/.test(x)){return $('display').value='Error'}try{$('display').value=String(Function('return '+x)())}catch(e){$('display').value='Error'}}
+function shapeInputs(){$('bb').style.display=['rect','tri','block'].includes($('shape').value)?'block':'none';$('bc').style.display=$('shape').value==='block'?'block':'none'}
+function shapeCalc(){let s=$('shape').value,a=+$('ba').value,b=+$('bb').value,c=+$('bc').value,r;if(s==='square')r='Luas '+a*a+' cm² • Keliling '+4*a+' cm';else if(s==='rect')r='Luas '+a*b+' cm² • Keliling '+2*(a+b)+' cm';else if(s==='tri')r='Luas '+a*b/2+' cm²';else if(s==='circle')r='Luas '+(Math.PI*a*a).toFixed(2)+' cm² • Keliling '+(2*Math.PI*a).toFixed(2)+' cm';else if(s==='cube')r='Volume '+a**3+' cm³';else r='Volume '+a*b*c+' cm³';$('br').textContent=r}
+function solveX(){let a=+$('xa').value,b=+$('xb').value,c=+$('xc').value;$('xr').textContent=a?'x = '+((c-b)/a):'a tidak boleh 0.'}
+function gcd(a,b){while(b){[a,b]=[b,a%b]}return Math.abs(a)}
+function fractionCalc(){let a=+$('n1').value,b=+$('d1').value,c=+$('n2').value,d=+$('d2').value,o=$('fop').value;if(!b||!d)return $('fr').textContent='Penyebut tidak boleh 0.';let n,den;if(o==='+'){n=a*d+c*b;den=b*d}else if(o==='-'){n=a*d-c*b;den=b*d}else if(o==='*'){n=a*c;den=b*d}else{n=a*d;den=b*c}let g=gcd(n,den);$('fr').textContent='Hasil = '+n/g+'/'+den/g}
+function stats(){let a=$('data').value.split(',').map(Number).filter(Number.isFinite);if(!a.length)return $('sr').textContent='Masukkan data.';let sorted=[...a].sort((x,y)=>x-y),mean=a.reduce((x,y)=>x+y,0)/a.length,mid=Math.floor(a.length/2),med=a.length%2?sorted[mid]:(sorted[mid-1]+sorted[mid])/2;let counts={};a.forEach(x=>counts[x]=(counts[x]||0)+1);let max=Math.max(...Object.values(counts)),modes=Object.keys(counts).filter(x=>counts[x]===max);$('sr').innerHTML='Mean = '+mean.toFixed(2)+'<br>Median = '+med+'<br>Modus = '+(max>1?modes.join(', '):'Tidak ada modus tunggal')+'<br>Rentang = '+(Math.max(...a)-Math.min(...a))}
+function prob(){let a=+$('fav').value,b=+$('total').value;if(b<=0||a<0||a>b)return $('pr').textContent='Masukkan nilai yang valid.';let p=a/b;$('pr').textContent='Peluang = '+p.toFixed(3)+' = '+(p*100).toFixed(2)+'%'}
+function exercise(el,ok,id){el.parentElement.querySelectorAll('.answer').forEach(x=>x.disabled=true);el.classList.add(ok?'correct':'wrong');$(id).textContent=ok?'✅ Benar!':'❌ Salah.'}
+const qs=[['7 × 8 = ?',['54','56','64','48'],1],['100 − 37 = ?',['53','63','73','67'],1],['x + 9 = 15, x = ?',['4','5','6','7'],2],['Luas 10 × 4 = ?',['14','20','40','80'],2],['25% dari 200 = ?',['25','40','50','75'],2],['√81 = ?',['7','8','9','10'],2],['FPB 12 dan 18 = ?',['3','6','9','12'],1],['2/3 + 1/3 = ?',['1/3','2/3','1','4/3'],2]];
+let qi=0,score=0;
+
+
+function escapeAI(s){
+  return String(s).replace(/[&<>"']/g,function(m){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m];
+  });
+}
+function addAIMessage(who,text){
+  var box=document.getElementById('chatMessages'); if(!box)return;
+  var d=document.createElement('div');
+  d.className='card'; d.style.margin='10px 0';
+  d.innerHTML='<b>'+escapeAI(who)+'</b><br>'+escapeAI(text).replace(/\n/g,'<br>');
+  box.appendChild(d);
+  d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function previewAIPhoto(input){
+  var box=document.getElementById('photoPreview');
+  if(!box||!input.files||!input.files[0])return;
+  var file=input.files[0];
+  if(!file.type.startsWith('image/'))return;
+  var url=URL.createObjectURL(file);
+  box.style.display='block';
+  box.innerHTML='<div class="card" style="margin:0"><b>📷 Foto soal</b><br><img src="'+url+'" alt="Foto soal" style="max-width:100%;max-height:320px;border-radius:12px;margin-top:8px"><br><button onclick="sendAIPhoto()">Kirim foto ke 7.10</button></div>';
+}
+function sendAIPhoto(){
+  var input=document.getElementById('aiPhoto');
+  if(!input||!input.files||!input.files[0])return;
+  var file=input.files[0];
+  addAIMessage('👤 Kamu','📷 Mengirim foto: '+file.name);
+  addAIMessage('🤖 7.10','Foto sudah masuk 😊 Aku bisa menampilkan fotonya di chat. Untuk membaca dan menyelesaikan isi foto secara otomatis, web ini perlu dihubungkan ke AI online/API.');
+}
+function aiQuick(t){
+  var i=document.getElementById('aiInput'); if(!i)return;
+  i.value=t; sendAI();
+}
+function aiReply(q){
+  var t=q.toLowerCase().trim();
+  if(/^(halo|hai|hi|hello|hei)\b/.test(t))
+    return 'Haaai 😄 Aku 7.10! Santai aja, kita ngobrol seperti teman belajar. Kamu lagi mau bahas apa?';
+  if(t.includes('apa kabar')) return 'Aku aman dan siap nemenin kamu 😄 Ada soal yang lagi bikin bingung?';
+  if(t.includes('siapa kamu')||t.includes('nama kamu')) return 'Aku 7.10 🤖 Teman ngobrol dan tutor MTK kamu.';
+  if(t.includes('makasih')||t.includes('terima kasih')) return 'Sama-sama 😄 Kalau ada yang belum paham, kirim aja.';
+  if(t.includes('fpb')||t.includes('kpk')){
+    var ns=t.match(/\d+/g);
+    if(ns&&ns.length>=2){
+      var a=+ns[0],b=+ns[1],g=bankGcdSimple(a,b);
+      return 'Oke, kita pelan-pelan 😊\nFPB = '+g+'\nKPK = '+Math.abs(a*b/g);
+    }
+    return 'Boleh 😄 Kirim dua angkanya, misalnya: FPB dan KPK dari 12 dan 18.';
+  }
+  var m=t.match(/(\d+(?:[.,]\d+)?)\s*%\s*(?:dari|of)\s*(\d+(?:[.,]\d+)?)/);
+  if(m) return m[1]+'% dari '+m[2]+' = '+(+m[1].replace(',','.')/100*+m[2].replace(',','.'));
+  m=t.match(/^\s*(-?\d+)\s*([+\-*/])\s*(-?\d+)\s*$/);
+  if(m){
+    var a=+m[1],b=+m[3],op=m[2],v=op==='+'?a+b:op==='-'?a-b:op==='*'?a*b:a/b;
+    return 'Hasilnya '+v+' 😄 Kalau mau, aku juga bisa jelaskan caranya.';
+  }
+  if(t.includes('buatkan soal')||t.includes('buat soal'))
+    return 'Siap 😄 Coba ini: 24 ÷ 6 + 3 = ?';
+  if(t.includes('rumus')) return 'Boleh! Sebutkan materinya, misalnya luas segitiga, lingkaran, atau Pythagoras.';
+  return 'Aku paham 😊 Ceritain aja apa yang kamu butuhkan. Kalau soal MTK, tulis soalnya atau pilih Kirim Foto.';
+}
+function bankGcdSimple(a,b){
+  a=Math.abs(Math.trunc(a)); b=Math.abs(Math.trunc(b));
+  while(b){var t=a%b;a=b;b=t;} return a||1;
+}
+function sendAI(){
+  var i=document.getElementById('aiInput'); if(!i)return;
+  var q=i.value.trim(); if(!q){i.focus();return;}
+  addAIMessage('👤 Kamu',q);
+  addAIMessage('🤖 7.10',aiReply(q));
+  i.value=''; i.focus();
+}
+function clearAI(){
+  var box=document.getElementById('chatMessages'); if(!box)return;
+  box.innerHTML='<div class="card" style="margin:0;background:var(--soft)"><b>🤖 7.10:</b><br>Chat dibersihkan 😄 Yuk mulai ngobrol lagi.</div>';
+}
+function start35Quiz(){
+  quiz35=build35Quiz();
+  quiz35Index=0; quiz35Score=0;
+  document.getElementById('quizStartBtn').style.display='none';
+  document.getElementById('quizNextBtn').style.display='none';
+  show35Question();
+}
+function show35Question(){
+  var item=quiz35[quiz35Index];
+  quiz35Answered=false;
+  document.getElementById('quizCounter').textContent='Soal '+(quiz35Index+1)+' dari 35';
+  document.getElementById('quizQuestion').textContent=item.question;
+  document.getElementById('quizFeedback').textContent='';
+  var box=document.getElementById('quizOptions'); box.innerHTML='';
+  item.options.forEach(function(opt,i){
+    var b=document.createElement('button');
+    b.textContent=String.fromCharCode(65+i)+'. '+opt;
+    b.style.display='block'; b.style.width='100%'; b.style.margin='7px 0';
+    b.onclick=function(){answer35(i);};
+    box.appendChild(b);
+  });
+}
+function answer35(choice){
+  if(quiz35Answered)return;
+  quiz35Answered=true;
+  var item=quiz35[quiz35Index];
+  var buttons=document.getElementById('quizOptions').children;
+  for(var i=0;i<buttons.length;i++)buttons[i].disabled=true;
+  if(choice===item.answer){
+    quiz35Score++;
+    document.getElementById('quizFeedback').textContent='✅ Benar!';
+  }else{
+    document.getElementById('quizFeedback').textContent='❌ Salah. Jawaban: '+item.options[item.answer];
+  }
+  document.getElementById('quizScore').textContent='Skor: '+quiz35Score;
+  var next=document.getElementById('quizNextBtn');
+  next.style.display='inline-block';
+  next.textContent=quiz35Index===34?'🏁 Selesai':'➡️ Berikutnya';
+}
+function next35Question(){
+  if(!quiz35Answered)return;
+  if(quiz35Index>=34){
+    document.getElementById('quizQuestion').textContent='🎉 Kuis selesai!';
+    document.getElementById('quizCounter').textContent='Selesai — 35 dari 35';
+    document.getElementById('quizOptions').innerHTML='';
+    document.getElementById('quizFeedback').textContent='Skor akhir: '+quiz35Score+' / 35';
+    document.getElementById('quizNextBtn').style.display='none';
+    document.getElementById('quizStartBtn').style.display='inline-block';
+    document.getElementById('quizStartBtn').textContent='🔄 Ulangi Kuis';
+    return;
+  }
+  quiz35Index++;
+  show35Question();
+  document.getElementById('quizNextBtn').style.display='none';
+}
+
+</script>
+
+
+<script>
+const DEV_DEFAULT_HTML='<div style="font-family:system-ui;padding:24px"><h2>Halo dari Developer 👋</h2><p>Edit kode lalu tekan Jalankan.</p><button onclick="document.getElementById('hasil').textContent='Berhasil!'">Tes JavaScript</button><p id="hasil"></p></div>';
+const DEV_DEFAULT_CSS='body{margin:0;background:#f4f7fb;color:#172033}';
+const DEV_DEFAULT_JS='';
+function devSafe(x){return String(x).replace(/<\/script/gi,'<\/script');}
+function devRun(){const h=document.getElementById('devHtml')?.value||'',c=document.getElementById('devCss')?.value||'',j=document.getElementById('devJs')?.value||'',f=document.getElementById('devPreview');if(f)f.srcdoc='<!doctype html><html><head><meta charset="utf-8"><style>'+c+'</style></head><body>'+h+'<script>'+devSafe(j)+'<\/script>
+<script>function openChatGlobal(btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('chatglobal').classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');loadGlobalChat();scrollTo(0,0)}function loadGlobalChat(){let b=document.getElementById('globalChatList');let d=JSON.parse(localStorage.getItem('kelass710_global_chat')||'[]');b.innerHTML=d.length?d.map(x=>`<div class="card" style="margin:8px 0"><b>${x.name}</b><br>${x.message}<div class="small">${x.time}</div></div>`).join(''):'<div class="result">Belum ada pesan.</div>'}function sendGlobalChat(){let n=document.getElementById('chatName'),m=document.getElementById('chatMessage');if(!m.value.trim())return;let d=JSON.parse(localStorage.getItem('kelass710_global_chat')||'[]');d.push({name:n.value.trim()||'Anonim',message:m.value.trim(),time:new Date().toLocaleString('id-ID')});localStorage.setItem('kelass710_global_chat',JSON.stringify(d.slice(-100)));m.value='';loadGlobalChat()}function clearGlobalChat(){localStorage.removeItem('kelass710_global_chat');loadGlobalChat()}</script>
+</body></html>';}
+function devReset(){document.getElementById('devHtml').value=DEV_DEFAULT_HTML;document.getElementById('devCss').value=DEV_DEFAULT_CSS;document.getElementById('devJs').value=DEV_DEFAULT_JS;devRun();}
+function devDownload(){const h=document.getElementById('devHtml').value,c=document.getElementById('devCss').value,j=document.getElementById('devJs').value;const blob=new Blob(['<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+c+'</style></head><body>'+h+'<script>'+devSafe(j)+'<\/script></body></html>'],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='developer-project.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+document.addEventListener('DOMContentLoaded',()=>{if(document.getElementById('devHtml'))devReset();});
+</script>
+</body>
+</html>
